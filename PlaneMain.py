@@ -1,7 +1,5 @@
 """
 飞机大战
-素材: https://www.cnblogs.com/144823836yj/p/10162920.html
-直接下载地址: https://files.cnblogs.com/files/144823836yj/plane.zip
 """
 
 import pygame
@@ -10,35 +8,33 @@ from PlaneSprite import *
 from settings import *
 from os import system
 
-system("echo 建议:")
-system("echo     游戏时不要在屏幕内频繁移动鼠标")
 
 # pygame初始化
 pygame.init()
 
-pygame.time.wait(1000)
+system("echo 建议:")
+system("echo     游戏时不要在屏幕内频繁移动鼠标")
+# 延时启动, 给玩家阅读建议时间
+pygame.time.wait(READING_TIME)
 
 # 创建屏幕
 screen = pygame.display.set_mode(SCREEN_SIZE)
 # 设置标题
 pygame.display.set_caption("飞机大战")
-pygame.display.set_icon(pygame.image.load(".\\images\\life.png").convert_alpha())
+pygame.display.set_icon(pygame.image.load("./images/life.png").convert_alpha())
 # 创建背景对象组
 # 创建两个背景对象作用:制造出背景滚动的画面
 BgsGroup = pygame.sprite.Group(
     Backgroud(
-        "\\".join((IMAGES_PATH, IMAGES_NAMES["BG"])),
+        "/".join((IMAGES_PATH, IMAGES_NAMES["BG"])),
     ),
-    Backgroud("\\".join((IMAGES_PATH, IMAGES_NAMES["BG"])), True),
+    Backgroud("/".join((IMAGES_PATH, IMAGES_NAMES["BG"])), True),
 )
 # 创建飞机对象
 hero = Hero(
+    ["/".join((IMAGES_PATH, ImageName)) for ImageName in IMAGES_NAMES["HERO"]["IMAGE"]],
     [
-        "\\".join((IMAGES_PATH, ImageName))
-        for ImageName in IMAGES_NAMES["HERO"]["IMAGE"]
-    ],
-    [
-        "\\".join((IMAGES_PATH, ImageName))
+        "/".join((IMAGES_PATH, ImageName))
         for ImageName in IMAGES_NAMES["HERO"]["DESTROY"]
     ],
 )
@@ -54,9 +50,9 @@ def create_new_small_enemies() -> None:
     """创建小型敌机&避免重叠"""
     for _ in range(EACH_CREATE_SMALL_ENEMY_NUMBER):
         NewSmallEnemy = SmallEnemy(
-            "\\".join((IMAGES_PATH, IMAGES_NAMES["SMALL_ENEMY"]["IMAGE"])),
+            "/".join((IMAGES_PATH, IMAGES_NAMES["SMALL_ENEMY"]["IMAGE"])),
             [
-                "\\".join((IMAGES_PATH, ImageName))
+                "/".join((IMAGES_PATH, ImageName))
                 for ImageName in IMAGES_NAMES["SMALL_ENEMY"]["DOWN_IMAGE"]
             ],
             SMALL_ENEMY_MOVE_SPEED,
@@ -72,11 +68,11 @@ def create_new_mid_enemies() -> None:
     for _ in range(EACH_CREATE_MID_ENEMY_NUMBER):
         NewMidEnemy = MidEnemy(
             [
-                "\\".join((IMAGES_PATH, ImageName))
+                "/".join((IMAGES_PATH, ImageName))
                 for ImageName in IMAGES_NAMES["MID_ENEMY"]["IMAGE"]
             ],
             [
-                "\\".join((IMAGES_PATH, ImageName))
+                "/".join((IMAGES_PATH, ImageName))
                 for ImageName in IMAGES_NAMES["MID_ENEMY"]["DOWN_IMAGE"]
             ],
             MID_ENEMY_MOVE_SPEED,
@@ -92,12 +88,12 @@ def create_new_big_enemies() -> None:
     for _ in range(EACH_CREATE_BIG_ENEMY_NUMBER):
         NewBigEnemy = BigEnemy(
             [
-                "\\".join((IMAGES_PATH, ImageName))
+                "/".join((IMAGES_PATH, ImageName))
                 for ImageName in IMAGES_NAMES["BIG_ENEMY"]["IMAGE"]
             ],
-            "\\".join((IMAGES_PATH, IMAGES_NAMES["BIG_ENEMY"]["HIT_IMAGE"])),
+            "/".join((IMAGES_PATH, IMAGES_NAMES["BIG_ENEMY"]["HIT_IMAGE"])),
             [
-                "\\".join((IMAGES_PATH, ImageName))
+                "/".join((IMAGES_PATH, ImageName))
                 for ImageName in IMAGES_NAMES["BIG_ENEMY"]["DOWN_IMAGE"]
             ],
             BIG_ENEMY_MOVE_SPEED,
@@ -131,7 +127,7 @@ LifeNumberPicsGroup = pygame.sprite.Group()
 for number in range(hero.LifeNumber):
     LifeNumberPicsGroup.add(
         LifeNumberPic(
-            "\\".join((IMAGES_PATH, IMAGES_NAMES["HERO"]["LIFE_IMAGE"])),
+            "/".join((IMAGES_PATH, IMAGES_NAMES["HERO"]["LIFE_IMAGE"])),
             number,
             (
                 (WIDTH, FLY_HEIGHT)
@@ -145,10 +141,8 @@ BombPicsGroup = pygame.sprite.Group()
 
 # 设置长按键盘时 首次发送信号延迟&连续发送信号间隔 单位:毫秒
 pygame.key.set_repeat(KEYBOARD_DELAY, INTERVAL)
-
 # 设置定时发送移动事件,用于背景和敌机的移动 单位:毫秒
 pygame.time.set_timer(UPDATE_EVENT, UPDATE_TIME)
-
 # 定时发送创建小型飞机时间 单位:毫秒
 pygame.time.set_timer(CREATE_NEW_SMALL_ENEMY_EVENT, CREATE_NEW_SMALL_ENEMY_TIME)
 # 定时发送创建中型飞机时间 单位:毫秒
@@ -168,6 +162,7 @@ def draw() -> None:
     SmallEnemiesGroup.draw(screen)
     MidEnemiesGroup.draw(screen)
     BigEnemiesGroup.draw(screen)
+    draw_life_line()
     HeroBulletsGroup.draw(screen)
     EnemiesBulletsGroup.draw(screen)
     BulletSuppliesGroup.draw(screen)
@@ -235,7 +230,7 @@ def hero_fire() -> None:
         for pos in ["left", "right"]:
             HeroBulletsGroup.add(
                 Bullet(
-                    "\\".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["IMAGE"][1])),
+                    "/".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["IMAGE"][1])),
                     hero,
                     HERO_FIRE_SPEED,
                     pos,
@@ -244,7 +239,7 @@ def hero_fire() -> None:
     else:
         HeroBulletsGroup.add(
             Bullet(
-                "\\".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["IMAGE"][0])),
+                "/".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["IMAGE"][0])),
                 hero,
                 HERO_FIRE_SPEED,
             )
@@ -262,7 +257,7 @@ def enemies_fire(
 ) -> None:
     EnemyBulletsGroup.add(
         EnemyBullet(
-            "\\".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["IMAGE"][0])), enemy, speed
+            "/".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["IMAGE"][0])), enemy, speed
         )
     )
 
@@ -298,7 +293,7 @@ def check_bullet_collide() -> None:
         ).values():
             for ConllideEnemy in ConllideEnemiesList:
                 try:
-                    ConllideEnemy.life -= FIRE_ENEMY
+                    ConllideEnemy.life -= FIRED_ENEMY
                 except AttributeError:
                     ConllideEnemy.down(draw, draw_life_line)
 
@@ -306,7 +301,7 @@ def check_bullet_collide() -> None:
         hero, EnemiesBulletsGroup, True, pygame.sprite.collide_mask
     ):
         if not hero.protecting:
-            hero.life -= FIRE_HERO
+            hero.life -= FIRED_HERO
 
 
 def check_supply_collide() -> None:
@@ -324,7 +319,7 @@ def check_supply_collide() -> None:
             hero.BombNumber += 1
             BombPicsGroup.add(
                 BombPic(
-                    "\\".join((IMAGES_PATH, IMAGES_NAMES["BOMB"]["SHOW_IMAGE"])),
+                    "/".join((IMAGES_PATH, IMAGES_NAMES["BOMB"]["SHOW_IMAGE"])),
                     hero.BombNumber,
                     (
                         (0, FLY_HEIGHT)
@@ -344,17 +339,38 @@ def run() -> None:
                 sys.exit()
 
             draw()
-            draw_life_line()
 
             if hero.ListenKeyboard:
                 listen_keyboard(event)
+
+            if not hero.protecting:
+                check_plane_collide()
+            check_bullet_collide()
+
+            check_supply_collide()
+
+            update()
+
+            if event.type == HERO_FIRE_EVENT:
+                hero_fire()
 
             if event.type == BOMB_CD_EVENT:
                 hero.BombIsCD = False
                 pygame.time.set_timer(BOMB_CD_EVENT, 0)
 
-            if event.type == HERO_FIRE_EVENT:
-                hero_fire()
+            if event.type == LISTEN_KEYBOARD_EVENT:
+                hero.ListenKeyboard = True
+                pygame.time.set_timer(LISTEN_KEYBOARD_EVENT, 0)
+
+            if event.type == OFF_PROTECT_EVENT:
+                hero.protecting = False
+                pygame.time.set_timer(OFF_PROTECT_EVENT, 0)
+
+            if event.type == STOP_HERO_FIRE_TWO_EVENT:
+                pygame.time.set_timer(STOP_HERO_FIRE_TWO_EVENT, 0)
+                hero.TwoBullet = False
+                HeroBulletsGroup.empty()
+
             if event.type == ENEMY_FIRE_EVENT:
                 for EnemyType, EnemiesList in dict(
                     zip(("SMALL", "MID", "BIG"), EnemiesGroups)
@@ -375,21 +391,6 @@ def run() -> None:
                                 ),
                             )
 
-            if not hero.protecting:
-                check_plane_collide()
-
-            if event.type == OFF_PROTECT_EVENT:
-                hero.protecting = False
-                pygame.time.set_timer(OFF_PROTECT_EVENT, 0)
-
-            if event.type == LISTEN_KEYBOARD_EVENT:
-                hero.ListenKeyboard = True
-                pygame.time.set_timer(LISTEN_KEYBOARD_EVENT, 0)
-
-            check_bullet_collide()
-
-            update()
-
             if event.type == CREATE_NEW_SMALL_ENEMY_EVENT:
                 create_new_small_enemies()
             if event.type == CREATE_NEW_MID_ENEMY_EVENT:
@@ -400,25 +401,16 @@ def run() -> None:
             if event.type == FALL_SUPPLY_EVENT:
                 BulletSuppliesGroup.add(
                     BulletSupply(
-                        "\\".join(
-                            (IMAGES_PATH, IMAGES_NAMES["BULLET"]["SUPPLY_IMAGE"])
-                        ),
+                        "/".join((IMAGES_PATH, IMAGES_NAMES["BULLET"]["SUPPLY_IMAGE"])),
                         SUPPLY_FALL_SPEED,
                     )
                 )
                 BombSuppliesGroup.add(
                     BombSupply(
-                        "\\".join((IMAGES_PATH, IMAGES_NAMES["BOMB"]["SUPPLY_IMAGE"])),
+                        "/".join((IMAGES_PATH, IMAGES_NAMES["BOMB"]["SUPPLY_IMAGE"])),
                         SUPPLY_FALL_SPEED,
                     )
                 )
-
-            check_supply_collide()
-
-            if event.type == STOP_HERO_FIRE_TWO_EVENT:
-                pygame.time.set_timer(STOP_HERO_FIRE_TWO_EVENT, 0)
-                hero.TwoBullet = False
-                HeroBulletsGroup.empty()
 
             # 刷新屏幕
             pygame.display.update()

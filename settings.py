@@ -8,8 +8,16 @@ import pygame
 # 屏幕大小(背景图片大小)
 WIDTH, HEIGHT = SCREEN_SIZE = (480, 700)
 
+# 阅读建议时间 单位:毫秒
+READING_TIME = 1000
+
 # 背景滚动速度
 BG_MOVE_SPEED = 4
+
+# 状态栏高度
+STATE_HEIGHT = 60
+# 飞行高度
+FLY_HEIGHT = HEIGHT - STATE_HEIGHT
 
 # 飞机移动速度
 HERO_MOVE_SPEED = 10
@@ -25,11 +33,6 @@ BIG_ENEMY_MOVE_SPEED = 1
 
 SUPPLY_FALL_SPEED = 6
 
-# 状态栏高度
-STATE_HEIGHT = 60
-# 飞行高度
-FLY_HEIGHT = HEIGHT - STATE_HEIGHT
-
 # 血条厚度
 LIFE_LINE_HEIGHT = 3
 
@@ -44,8 +47,8 @@ MID_ENEMY_FIRE_SPEED = 20
 BIG_ENEMY_FIRE_SPEED = 10
 
 # 击中飞机&敌机伤害
-FIRE_HERO = 5
-FIRE_ENEMY = 10
+FIRED_HERO = 5
+FIRED_ENEMY = 10
 
 # 敌机发射子弹距离
 ENEMY_FIRE_DISTANCE = 200
@@ -88,20 +91,24 @@ ENEMY_FIRE_TIME = 200
 LISTEN_KEYBOARD_EVENT = pygame.USEREVENT + 7
 LISTEN_KEYBOARD_TIME = 700
 
+# 掉落物事件&时间
 FALL_SUPPLY_EVENT = pygame.USEREVENT + 8
 FALL_SUPPLY_TIME = 10000
 
+# 停止飞机同事发射两发子弹事件&时间
 STOP_HERO_FIRE_TWO_EVENT = pygame.USEREVENT + 9
 STOP_HERO_FIRE_TWO_TIME = 30000
 
+# 炸弹CD事件&时间
 BOMB_CD_EVENT = pygame.USEREVENT + 10
 BOMB_CD_TIME = 3000
 
 
 # 图片文件夹
-IMAGES_PATH = "D:\\Program\\Files\\game\\plane\\images"
+IMAGES_PATH = "D:/Program/Files/game/plane/images"
 # 游戏元素&图片名
 IMAGES_NAMES = {
+    "ICON": "life.png",
     "BG": "background.png",
     "HERO": {
         "IMAGE": ["me1.png", "me2.png"],
