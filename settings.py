@@ -1,6 +1,7 @@
-'''
+"""
 飞机大战游戏设置
-'''
+"""
+
 import pygame
 
 
@@ -16,7 +17,7 @@ HERO_MOVE_SPEED = 10
 HERO_LIFE_NUMBER = 3
 
 # 小型敌机移动速度
-SMALL_ENEMY_MOVE_SPEED = 5
+SMALL_ENEMY_MOVE_SPEED = 3
 # 中型敌机移动速度
 MID_ENEMY_MOVE_SPEED = 2
 # 大型敌机移动速度
@@ -25,7 +26,7 @@ BIG_ENEMY_MOVE_SPEED = 1
 SUPPLY_FALL_SPEED = 6
 
 # 状态栏高度
-STATE_HEIGHT = 50
+STATE_HEIGHT = 60
 # 飞行高度
 FLY_HEIGHT = HEIGHT - STATE_HEIGHT
 
@@ -88,7 +89,7 @@ LISTEN_KEYBOARD_EVENT = pygame.USEREVENT + 7
 LISTEN_KEYBOARD_TIME = 700
 
 FALL_SUPPLY_EVENT = pygame.USEREVENT + 8
-FALL_SUPPLY_TIME = 1000
+FALL_SUPPLY_TIME = 10000
 
 STOP_HERO_FIRE_TWO_EVENT = pygame.USEREVENT + 9
 STOP_HERO_FIRE_TWO_TIME = 30000
@@ -98,55 +99,53 @@ BOMB_CD_TIME = 3000
 
 
 # 图片文件夹
-IMAGES_PATH = 'D:\\Program\\Files\\game\\plane\\images'
+IMAGES_PATH = "D:\\Program\\Files\\game\\plane\\images"
 # 游戏元素&图片名
 IMAGES_NAMES = {
-    'BG': 'background.png',
-    'HERO': {
-        'IMAGE': ['me1.png', 'me2.png'],
-        'DESTROY': [
-            'me_destroy_1.png',
-            'me_destroy_2.png',
-            'me_destroy_3.png',
-            'me_destroy_4.png'
-        ]
+    "BG": "background.png",
+    "HERO": {
+        "IMAGE": ["me1.png", "me2.png"],
+        "LIFE_IMAGE": "life.png",
+        "DESTROY": [
+            "me_destroy_1.png",
+            "me_destroy_2.png",
+            "me_destroy_3.png",
+            "me_destroy_4.png",
+        ],
     },
-    'SMALL_ENEMY': {
-        'IMAGE': 'enemy1.png',
-        'DOWN_IMAGE': [
-            'enemy1_down1.png',
-            'enemy1_down2.png',
-            'enemy1_down3.png',
-            'enemy1_down4.png'
-        ]
+    "SMALL_ENEMY": {
+        "IMAGE": "enemy1.png",
+        "DOWN_IMAGE": [
+            "enemy1_down1.png",
+            "enemy1_down2.png",
+            "enemy1_down3.png",
+            "enemy1_down4.png",
+        ],
     },
-    'MID_ENEMY': {
-        'IMAGE': ['enemy2.png', 'enemy2_hit.png'],
-        'DOWN_IMAGE': [
-            'enemy2_down1.png',
-            'enemy2_down2.png',
-            'enemy2_down3.png',
-            'enemy2_down4.png'
-        ]
+    "MID_ENEMY": {
+        "IMAGE": ["enemy2.png", "enemy2_hit.png"],
+        "DOWN_IMAGE": [
+            "enemy2_down1.png",
+            "enemy2_down2.png",
+            "enemy2_down3.png",
+            "enemy2_down4.png",
+        ],
     },
-    'BIG_ENEMY': {
-        'IMAGE': ['enemy3_n1.png', 'enemy3_n2.png'],
-        'HIT_IMAGE': 'enemy3_hit.png',
-        'DOWN_IMAGE': [
-            'enemy3_down1.png',
-            'enemy3_down2.png',
-            'enemy3_down3.png',
-            'enemy3_down4.png',
-            'enemy3_down5.png',
-            'enemy3_down6.png'
-        ]
+    "BIG_ENEMY": {
+        "IMAGE": ["enemy3_n1.png", "enemy3_n2.png"],
+        "HIT_IMAGE": "enemy3_hit.png",
+        "DOWN_IMAGE": [
+            "enemy3_down1.png",
+            "enemy3_down2.png",
+            "enemy3_down3.png",
+            "enemy3_down4.png",
+            "enemy3_down5.png",
+            "enemy3_down6.png",
+        ],
     },
-    'BULLET': {
-        'IMAGE': ['bullet1.png', 'bullet2.png'],
-        'SUPPLY_IMAGE': 'bullet_supply.png'
+    "BULLET": {
+        "IMAGE": ["bullet1.png", "bullet2.png"],
+        "SUPPLY_IMAGE": "bullet_supply.png",
     },
-    'BOMB': {
-        'SHOW_IMAGE': 'bomb.png',
-        'SUPPLY_IMAGE': 'bomb_supply.png'
-    }
+    "BOMB": {"SHOW_IMAGE": "bomb.png", "SUPPLY_IMAGE": "bomb_supply.png"},
 }
