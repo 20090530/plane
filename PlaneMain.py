@@ -157,22 +157,6 @@ pygame.time.set_timer(ENEMY_FIRE_EVENT, ENEMY_FIRE_TIME)
 pygame.time.set_timer(FALL_SUPPLY_EVENT, FALL_SUPPLY_TIME)
 
 
-def draw() -> None:
-    """绘制所有游戏元素"""
-    BgsGroup.draw(screen)
-    hero.draw(screen)
-    SmallEnemiesGroup.draw(screen)
-    MidEnemiesGroup.draw(screen)
-    BigEnemiesGroup.draw(screen)
-    draw_life_line()
-    HeroBulletsGroup.draw(screen)
-    EnemiesBulletsGroup.draw(screen)
-    BulletSuppliesGroup.draw(screen)
-    BombSuppliesGroup.draw(screen)
-    LifeNumberPicsGroup.draw(screen)
-    BombPicsGroup.draw(screen)
-
-
 def draw_life_line() -> None:
     """绘制血条"""
     pygame.draw.rect(
@@ -192,13 +176,29 @@ def draw_life_line() -> None:
         )
 
 
+def draw() -> None:
+    """绘制所有游戏元素"""
+    BgsGroup.draw(screen)
+    hero.draw(screen)
+    SmallEnemiesGroup.draw(screen)
+    MidEnemiesGroup.draw(screen)
+    BigEnemiesGroup.draw(screen)
+    draw_life_line()
+    HeroBulletsGroup.draw(screen)
+    EnemiesBulletsGroup.draw(screen)
+    BulletSuppliesGroup.draw(screen)
+    BombSuppliesGroup.draw(screen)
+    LifeNumberPicsGroup.draw(screen)
+    BombPicsGroup.draw(screen)
+
+
 def update() -> None:
     """所有游戏元素刷新"""
     BgsGroup.update()
-    hero.update(draw, draw_life_line)
+    hero.update(draw)
     SmallEnemiesGroup.update()
-    MidEnemiesGroup.update(draw, draw_life_line)
-    BigEnemiesGroup.update(draw, draw_life_line)
+    MidEnemiesGroup.update(draw)
+    BigEnemiesGroup.update(draw)
     HeroBulletsGroup.update()
     EnemiesBulletsGroup.update()
     BulletSuppliesGroup.update()
@@ -296,7 +296,7 @@ def check_plane_collide() -> None:
         if ConllideEnemiesList:
             # 摧毁列表里每个敌机
             for ConllideEnemy in ConllideEnemiesList:
-                ConllideEnemy.down(draw, draw_life_line)
+                ConllideEnemy.down(draw)
             # 如果飞机没被摧毁过, 则摧毁
             if not Destroyed:
                 # 把飞机被摧毁标志变量设为被摧毁
@@ -312,7 +312,7 @@ def check_plane_collide() -> None:
                 # 飞机命数减1
                 hero.LifeNumber -= 1
                 # 摧毁飞机
-                hero.destroy(draw, draw_life_line)
+                hero.destroy(draw)
 
 
 def check_bullet_collide() -> None:
@@ -325,7 +325,7 @@ def check_bullet_collide() -> None:
                 try:
                     ConllideEnemy.life -= FIRED_ENEMY
                 except AttributeError:
-                    ConllideEnemy.down(draw, draw_life_line)
+                    ConllideEnemy.down(draw)
 
     for _ in pygame.sprite.spritecollide(
         hero, EnemiesBulletsGroup, True, pygame.sprite.collide_mask
@@ -444,8 +444,6 @@ def run() -> None:
 
             # 刷新屏幕
             pygame.display.update()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                print("down")
 
     pygame.quit()
     sys.exit()

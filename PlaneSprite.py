@@ -101,7 +101,7 @@ class Hero(pygame.sprite.Sprite):
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
 
-    def update(self, draw, DrawLifeLine) -> None:
+    def update(self, draw) -> None:
         """刷新图片"""
         self.image, self.OtherImage = self.OtherImage, self.image
         if self.life <= 0:
@@ -110,7 +110,7 @@ class Hero(pygame.sprite.Sprite):
             self.ListenKeyboard = False
             pygame.time.set_timer(LISTEN_KEYBOARD_EVENT, LISTEN_KEYBOARD_TIME)
             self.LifeNumber -= 1
-            self.destroy(draw, DrawLifeLine)
+            self.destroy(draw)
         if self.protecting:
             self.DrawContinue = not self.DrawContinue
         elif self.DrawContinue:
@@ -122,12 +122,11 @@ class Hero(pygame.sprite.Sprite):
         """发射子弹"""
         BulletGroup.add(Bullet(BulletImagePath, self, Bulletspeed))
 
-    def destroy(self, draw, DrawLifeLine) -> None:
+    def destroy(self, draw) -> None:
         TempImage = self.image
         for DestroyImage in self.DestroyImages:
             self.image = DestroyImage
             draw()
-            DrawLifeLine()
             pygame.display.update()
             pygame.time.wait(30)
         else:
@@ -175,12 +174,11 @@ class Enemy(pygame.sprite.Sprite):
         """发射子弹"""
         BulletGroup.add(Bullet(BulletImagePath, self, Bulletspeed))
 
-    def down(self, draw, DrawLifeLine) -> None:
+    def down(self, draw) -> None:
         """摧毁画面"""
         for DownImage in self.DownImages:
             self.image = DownImage
             draw()
-            DrawLifeLine()
             pygame.display.update()
             pygame.time.wait(20)
         self.kill()
@@ -204,12 +202,12 @@ class MidEnemy(Enemy):
         self.hit = False
         self.life = self.rect.width
 
-    def update(self, draw, DrawLifeLine) -> None:
+    def update(self, draw) -> None:
         super().update()
         if self.life <= self.rect.width * (1 / 3):
             self.image = self.HitImage
         if self.life <= 0:
-            self.down(draw, DrawLifeLine)
+            self.down(draw)
             self.kill()
 
 
@@ -229,14 +227,14 @@ class BigEnemy(Enemy):
         self.hit = False
         self.life = self.rect.width
 
-    def update(self, draw, DrawLifeLine) -> None:
+    def update(self, draw) -> None:
         super().update()
         if self.life <= self.rect.width * (1 / 3):
             self.image = self.HitImage
         else:
             self.image, self.OtherImage = self.OtherImage, self.image
         if self.life <= 0:
-            self.down(draw, DrawLifeLine)
+            self.down(draw)
             self.kill()
 
 
